@@ -1,0 +1,55 @@
+package validateBirthday;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+
+public class CSVProcessing_store {
+
+	public static void main(String[] args) {
+		String inputFilePath = "D:\\test_files\\store_exp_20230401.csv";
+		String outputFilePath = "D:\\test_files\\store_exp_20230401_output.csv";
+
+		try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath));
+				FileWriter writer = new FileWriter(outputFilePath)) {
+
+			String line;
+			int lineCount = 0;
+
+			while ((line = reader.readLine()) != null) {
+				lineCount++;
+				if (lineCount > 1) {
+					String[] fields = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+					if (fields.length == 5) {
+						if (fields[0].equals("\"\"")) {
+							fields[0] = "\" \"";
+						}
+						if (fields[1].equals("\"\"")) {
+							fields[1] = "\" \"";
+						}
+						if (fields[2].equals("\"\"")) {
+							fields[2] = "\" \"";
+						}
+						if (fields[3].equals("\"\"")) {
+							fields[3] = "\" \"";
+						}
+						if (fields[4].equals("\"\"")) {
+							fields[4] = "\" \"";
+						}
+
+
+						String modifiedLine = String.join(",", fields);
+						writer.write(modifiedLine + "\n");
+					} else {
+						System.out.println(fields);
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
